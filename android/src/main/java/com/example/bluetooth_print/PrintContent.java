@@ -137,7 +137,7 @@ public class PrintContent {
             // 设置原点坐标
             tsc.addReference(0, 0);
             //设置浓度
-            tsc.addDensity(LabelCommand.DENSITY.DNESITY4);
+            tsc.addDensity(LabelCommand.DENSITY.DNESITY15);
 
             tsc.addSpeed(LabelCommand.SPEED.SPEED4);
             // 撕纸模式开启
