@@ -139,7 +139,7 @@ public class PrintContent {
             //设置浓度
             tsc.addDensity(LabelCommand.DENSITY.DNESITY15);
 
-            tsc.addSpeed(LabelCommand.SPEED.SPEED4);
+            //tsc.addSpeed(LabelCommand.SPEED.SPEED4);
             // 撕纸模式开启
             tsc.addTear(EscCommand.ENABLE.ON);
             // 清除打印缓冲区
@@ -175,8 +175,6 @@ public class PrintContent {
             tsc.addPrint(1, 1);
             // 打印标签后 蜂鸣器响
             tsc.addSound(2, 100);
-
-            
             //开启钱箱
             tsc.addCashdrwer(LabelCommand.FOOT.F5, 255, 255);
             // 发送数据
