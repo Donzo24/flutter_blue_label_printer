@@ -172,11 +172,11 @@ public class PrintContent {
             }
 
             // 打印标签
-            tsc.addPrint(2, 2);
+            tsc.addPrint(1, 2);
             // 打印标签后 蜂鸣器响
-            tsc.addSound(2, 100);
+            //tsc.addSound(2, 100);
             //开启钱箱
-            tsc.addCashdrwer(LabelCommand.FOOT.F5, 255, 255);
+            //tsc.addCashdrwer(LabelCommand.FOOT.F5, 255, 255);
             // 发送数据
             return  tsc.getCommand();
       }
