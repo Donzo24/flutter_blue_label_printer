@@ -172,7 +172,7 @@ public class PrintContent {
             }
 
             // 打印标签
-            tsc.addPrint(1, 2);
+            tsc.addPrint(2, 2);
             // 打印标签后 蜂鸣器响
             //tsc.addSound(2, 100);
             //开启钱箱
