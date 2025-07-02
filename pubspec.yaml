@@ -3,6 +3,14 @@ description: BluetoothPrint is a bluetooth plugin to help developers build bluet
 version: 4.3.0
 homepage: https://github.com/thon-ju/bluetooth_print
 
+# Pour utiliser ce package dans votre projet, ajoutez ces lignes dans votre pubspec.yaml :
+#
+# dependencies:
+#   bluetooth_print:
+#     git:
+#       url: https://github.com/VOTRE_USERNAME/flutter_blue_label_printer.git
+#       ref: main  # ou le nom de votre branche/tag
+
 environment:
   sdk: '>=3.0.0 <4.0.0'
   flutter: ">=3.10.0"
