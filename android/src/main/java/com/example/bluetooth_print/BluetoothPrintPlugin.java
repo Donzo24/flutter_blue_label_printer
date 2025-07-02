@@ -28,7 +28,6 @@ import io.flutter.plugin.common.EventChannel.EventSink;
 import io.flutter.plugin.common.EventChannel.StreamHandler;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
-import io.flutter.plugin.common.PluginRegistry.Registrar;
 import io.flutter.plugin.common.PluginRegistry.RequestPermissionsResultListener;
 
 import java.util.ArrayList;
@@ -40,17 +39,11 @@ import android.util.Base64;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-
 import java.util.List;
 import java.util.Vector;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-
-// import com.fasterxml.jackson.databind.JsonNode;
-// import com.fasterxml.jackson.databind.ObjectMapper;
-
-// import javax.xml.bind.DatatypeConverter;
 
 /**
  * BluetoothPrintPlugin
@@ -86,40 +79,31 @@ public class BluetoothPrintPlugin implements FlutterPlugin, ActivityAware, Metho
           Manifest.permission.ACCESS_FINE_LOCATION
   };
 
-  public static void registerWith(Registrar registrar) {
-    final BluetoothPrintPlugin instance = new BluetoothPrintPlugin();
-
-    Activity activity = registrar.activity();
-    Application application = null;
-    if (registrar.context() != null) {
-      application = (Application) (registrar.context().getApplicationContext());
-    }
-    instance.setup(registrar.messenger(), application, activity, registrar, null);
+  public BluetoothPrintPlugin() {
   }
-
-  public BluetoothPrintPlugin(){
-  }
-
 
   @Override
   public void onAttachedToEngine(FlutterPluginBinding binding) {
     pluginBinding = binding;
+    setup(
+            binding.getBinaryMessenger(),
+            (Application) binding.getApplicationContext(),
+            null,
+            null,
+            null);
   }
 
   @Override
   public void onDetachedFromEngine(FlutterPluginBinding binding) {
+    tearDown();
     pluginBinding = null;
   }
 
   @Override
   public void onAttachedToActivity(ActivityPluginBinding binding) {
     activityBinding = binding;
-    setup(
-            pluginBinding.getBinaryMessenger(),
-            (Application) pluginBinding.getApplicationContext(),
-            activityBinding.getActivity(),
-            null,
-            activityBinding);
+    activity = binding.getActivity();
+    activityBinding.addRequestPermissionsResultListener(this);
   }
 
   @Override
@@ -154,30 +138,29 @@ public class BluetoothPrintPlugin implements FlutterPlugin, ActivityAware, Metho
       stateChannel.setStreamHandler(stateHandler);
       mBluetoothManager = (BluetoothManager) application.getSystemService(Context.BLUETOOTH_SERVICE);
       mBluetoothAdapter = mBluetoothManager.getAdapter();
-      if (registrar != null) {
-        // V1 embedding setup for activity listeners.
-        registrar.addRequestPermissionsResultListener(this);
-      } else {
-        // V2 embedding setup for activity listeners.
-        activityBinding.addRequestPermissionsResultListener(this);
-      }
     }
   }
 
   private void tearDown() {
     Log.i(TAG, "teardown");
     context = null;
-    activityBinding.removeRequestPermissionsResultListener(this);
-    activityBinding = null;
-    channel.setMethodCallHandler(null);
-    channel = null;
-    stateChannel.setStreamHandler(null);
-    stateChannel = null;
+    if (activityBinding != null) {
+      activityBinding.removeRequestPermissionsResultListener(this);
+      activityBinding = null;
+    }
+    if (channel != null) {
+      channel.setMethodCallHandler(null);
+      channel = null;
+    }
+    if (stateChannel != null) {
+      stateChannel.setStreamHandler(null);
+      stateChannel = null;
+    }
     mBluetoothAdapter = null;
     mBluetoothManager = null;
     application = null;
+    activity = null;
   }
-
 
   @Override
   public void onMethodCall(MethodCall call, Result result) {
