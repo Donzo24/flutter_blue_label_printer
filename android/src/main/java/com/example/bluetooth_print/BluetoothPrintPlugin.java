@@ -28,7 +28,6 @@ import io.flutter.plugin.common.EventChannel.EventSink;
 import io.flutter.plugin.common.EventChannel.StreamHandler;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
-import io.flutter.plugin.common.PluginRegistry.RequestPermissionsResultListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,9 +46,8 @@ import java.io.IOException;
 
 /**
  * BluetoothPrintPlugin
- * @author thon
  */
-public class BluetoothPrintPlugin implements FlutterPlugin, ActivityAware, MethodCallHandler, RequestPermissionsResultListener {
+public class BluetoothPrintPlugin implements FlutterPlugin, ActivityAware, MethodCallHandler {
   private static final String TAG = "BluetoothPrintPlugin";
   private Object initializationLock = new Object();
   private Context context;
@@ -101,7 +99,6 @@ public class BluetoothPrintPlugin implements FlutterPlugin, ActivityAware, Metho
   public void onAttachedToActivity(ActivityPluginBinding binding) {
     activityBinding = binding;
     activity = binding.getActivity();
-    activityBinding.addRequestPermissionsResultListener(this);
   }
 
   @Override
@@ -141,7 +138,6 @@ public class BluetoothPrintPlugin implements FlutterPlugin, ActivityAware, Metho
     Log.i(TAG, "teardown");
     context = null;
     if (activityBinding != null) {
-      activityBinding.removeRequestPermissionsResultListener(this);
       activityBinding = null;
     }
     if (channel != null) {
@@ -181,7 +177,7 @@ public class BluetoothPrintPlugin implements FlutterPlugin, ActivityAware, Metho
       case "startScan":
       {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
-          ActivityCompat.requestPermissions(activityBinding.getActivity(), PERMISSIONS_LOCATION, REQUEST_FINE_LOCATION_PERMISSIONS);
+          ActivityCompat.requestPermissions(activity, PERMISSIONS_LOCATION, REQUEST_FINE_LOCATION_PERMISSIONS);
           pendingCall = call;
           pendingResult = result;
           break;
@@ -215,7 +211,6 @@ public class BluetoothPrintPlugin implements FlutterPlugin, ActivityAware, Metho
         result.notImplemented();
         break;
     }
-
   }
 
   private void getDevices(Result result){
@@ -231,9 +226,6 @@ public class BluetoothPrintPlugin implements FlutterPlugin, ActivityAware, Metho
     result.success(devices);
   }
 
-  /**
-   * 获取状态
-   */
   private void state(Result result){
     try {
       switch(mBluetoothAdapter.getState()) {
@@ -256,9 +248,7 @@ public class BluetoothPrintPlugin implements FlutterPlugin, ActivityAware, Metho
     } catch (SecurityException e) {
       result.error("invalid_argument", "argument 'address' not found", null);
     }
-
   }
-
 
   private void startScan(MethodCall call, Result result) {
     Log.d(TAG,"start scan ");
@@ -315,9 +305,6 @@ public class BluetoothPrintPlugin implements FlutterPlugin, ActivityAware, Metho
     }
   }
 
-  /**
-   * 连接
-   */
   private void connect(MethodCall call, Result result){
     Map<String, Object> args = call.arguments();
     if (args !=null && args.containsKey("address")) {
@@ -344,14 +331,10 @@ public class BluetoothPrintPlugin implements FlutterPlugin, ActivityAware, Metho
 
       result.success(true);
     } else {
-      result.error("******************* invalid_argument", "argument 'address' not found", null);
+      result.error("invalid_argument", "argument 'address' not found", null);
     }
-
   }
 
-  /**
-   * 关闭连接
-   */
   private boolean disconnect(){
     DeviceConnFactoryManager deviceConnFactoryManager = DeviceConnFactoryManager.getDeviceConnFactoryManagers().get(curMacAddress);
     if(deviceConnFactoryManager != null && deviceConnFactoryManager.mPort != null) {
@@ -394,7 +377,6 @@ public class BluetoothPrintPlugin implements FlutterPlugin, ActivityAware, Metho
         }
       }
     });
-
   }
 
   @SuppressWarnings("unchecked")
@@ -432,26 +414,7 @@ public class BluetoothPrintPlugin implements FlutterPlugin, ActivityAware, Metho
     }else{
       result.error("please add config or data", "", null);
     }
-
   }
-
-  @Override
-  public boolean onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-
-    if (requestCode == REQUEST_FINE_LOCATION_PERMISSIONS) {
-      if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-        startScan(pendingCall, pendingResult);
-      } else {
-        pendingResult.error("no_permissions", "this plugin requires location permissions for scanning", null);
-        pendingResult = null;
-      }
-      return true;
-    }
-    return false;
-
-  }
-
-
 
   private final StreamHandler stateHandler = new StreamHandler() {
     private EventSink sink;
@@ -490,5 +453,4 @@ public class BluetoothPrintPlugin implements FlutterPlugin, ActivityAware, Metho
       context.unregisterReceiver(mReceiver);
     }
   };
-
 }
