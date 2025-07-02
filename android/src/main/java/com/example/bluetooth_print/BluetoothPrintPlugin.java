@@ -88,8 +88,6 @@ public class BluetoothPrintPlugin implements FlutterPlugin, ActivityAware, Metho
     setup(
             binding.getBinaryMessenger(),
             (Application) binding.getApplicationContext(),
-            null,
-            null,
             null);
   }
 
@@ -124,9 +122,7 @@ public class BluetoothPrintPlugin implements FlutterPlugin, ActivityAware, Metho
   private void setup(
           final BinaryMessenger messenger,
           final Application application,
-          final Activity activity,
-          final PluginRegistry.Registrar registrar,
-          final ActivityPluginBinding activityBinding) {
+          final Activity activity) {
     synchronized (initializationLock) {
       Log.i(TAG, "setup");
       this.activity = activity;

@@ -2,10 +2,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'bluetooth_print_model.g.dart';
 
-const int ALIGN_LEFT = 0;
-const int ALIGN_CENTER = 1;
-const int ALIGN_RIGHT = 2;
-
 @JsonSerializable(includeIfNull: false)
 class BluetoothDevice {
   BluetoothDevice({
@@ -32,11 +28,15 @@ class LineText {
   static const String TYPE_QRCODE = 'qrcode';
   static const String TYPE_IMAGE = 'image';
 
+  static const int ALIGN_LEFT = 0;
+  static const int ALIGN_CENTER = 1;
+  static const int ALIGN_RIGHT = 2;
+
   LineText({
     this.type,
     this.content,
     this.size = 0,
-    this.align = ALIGN_LEFT,
+    this.align = LineText.ALIGN_LEFT,
     this.weight = 0,
     this.width = 0,
     this.height = 0,

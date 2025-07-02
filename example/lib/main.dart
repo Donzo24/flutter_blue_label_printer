@@ -148,14 +148,14 @@ class _MyAppState extends State<MyApp> {
                             type: LineText.TYPE_TEXT,
                             content: '**********************************************',
                             weight: 1,
-                            align: ALIGN_CENTER,
+                            align: LineText.ALIGN_CENTER,
                             linefeed: 1
                           ));
                           list.add(LineText(
                             type: LineText.TYPE_TEXT,
                             content: 'Receipt Header',
                             weight: 1,
-                            align: ALIGN_CENTER,
+                            align: LineText.ALIGN_CENTER,
                             fontZoom: 2,
                             linefeed: 1
                           ));
@@ -164,7 +164,7 @@ class _MyAppState extends State<MyApp> {
                           list.add(LineText(
                             type: LineText.TYPE_TEXT,
                             content: 'Item Name',
-                            align: ALIGN_LEFT,
+                            align: LineText.ALIGN_LEFT,
                             absolutePos: 0,
                             relativePos: 0,
                             linefeed: 0
@@ -172,7 +172,7 @@ class _MyAppState extends State<MyApp> {
                           list.add(LineText(
                             type: LineText.TYPE_TEXT,
                             content: 'Unit',
-                            align: ALIGN_LEFT,
+                            align: LineText.ALIGN_LEFT,
                             absolutePos: 350,
                             relativePos: 0,
                             linefeed: 0
@@ -180,7 +180,7 @@ class _MyAppState extends State<MyApp> {
                           list.add(LineText(
                             type: LineText.TYPE_TEXT,
                             content: 'Qty',
-                            align: ALIGN_LEFT,
+                            align: LineText.ALIGN_LEFT,
                             absolutePos: 500,
                             relativePos: 0,
                             linefeed: 1
@@ -189,7 +189,7 @@ class _MyAppState extends State<MyApp> {
                           list.add(LineText(
                             type: LineText.TYPE_TEXT,
                             content: 'Product C30',
-                            align: ALIGN_LEFT,
+                            align: LineText.ALIGN_LEFT,
                             absolutePos: 0,
                             relativePos: 0,
                             linefeed: 0
@@ -197,7 +197,7 @@ class _MyAppState extends State<MyApp> {
                           list.add(LineText(
                             type: LineText.TYPE_TEXT,
                             content: 'pcs',
-                            align: ALIGN_LEFT,
+                            align: LineText.ALIGN_LEFT,
                             absolutePos: 350,
                             relativePos: 0,
                             linefeed: 0
@@ -205,7 +205,7 @@ class _MyAppState extends State<MyApp> {
                           list.add(LineText(
                             type: LineText.TYPE_TEXT,
                             content: '12.0',
-                            align: ALIGN_LEFT,
+                            align: LineText.ALIGN_LEFT,
                             absolutePos: 500,
                             relativePos: 0,
                             linefeed: 1
@@ -215,7 +215,7 @@ class _MyAppState extends State<MyApp> {
                             type: LineText.TYPE_TEXT,
                             content: '**********************************************',
                             weight: 1,
-                            align: ALIGN_CENTER,
+                            align: LineText.ALIGN_CENTER,
                             linefeed: 1
                           ));
                           list.add(LineText(linefeed: 1));
@@ -226,7 +226,7 @@ class _MyAppState extends State<MyApp> {
                           list.add(LineText(
                             type: LineText.TYPE_IMAGE,
                             content: base64Image,
-                            align: ALIGN_CENTER,
+                            align: LineText.ALIGN_CENTER,
                             linefeed: 1
                           ));
 
@@ -257,7 +257,7 @@ class _MyAppState extends State<MyApp> {
                           imageList.add(LineText(
                             type: LineText.TYPE_IMAGE,
                             content: base64Image,
-                            align: ALIGN_CENTER,
+                            align: LineText.ALIGN_CENTER,
                             width: 850
                           ));
 

@@ -26,7 +26,7 @@ LineText _$LineTextFromJson(Map<String, dynamic> json) => LineText(
       type: json['type'] as String?,
       content: json['content'] as String?,
       size: (json['size'] as num?)?.toInt() ?? 0,
-      align: (json['align'] as num?)?.toInt() ?? ALIGN_LEFT,
+      align: (json['align'] as num?)?.toInt() ?? LineText.ALIGN_LEFT,
       weight: (json['weight'] as num?)?.toInt() ?? 0,
       width: (json['width'] as num?)?.toInt() ?? 0,
       height: (json['height'] as num?)?.toInt() ?? 0,
