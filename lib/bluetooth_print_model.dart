@@ -2,14 +2,23 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'bluetooth_print_model.g.dart';
 
+const int ALIGN_LEFT = 0;
+const int ALIGN_CENTER = 1;
+const int ALIGN_RIGHT = 2;
+
 @JsonSerializable(includeIfNull: false)
 class BluetoothDevice {
-  BluetoothDevice();
+  BluetoothDevice({
+    this.name,
+    this.address,
+    this.type = 0,
+    this.connected = false,
+  });
 
   String? name;
   String? address;
-  int? type = 0;
-  bool? connected = false;
+  int? type;
+  bool? connected;
 
   factory BluetoothDevice.fromJson(Map<String, dynamic> json) =>
       _$BluetoothDeviceFromJson(json);
@@ -18,31 +27,29 @@ class BluetoothDevice {
 
 @JsonSerializable(includeIfNull: false)
 class LineText {
-  LineText(
-      {this.type, //text,barcode,qrcode,image(base64 string)
-      this.content,
-      this.size = 0,
-      this.align = ALIGN_LEFT,
-      this.weight = 0, //0,1
-      this.width = 0, //0,1
-      this.height = 0, //0,1
-      this.absolutePos = 0,
-      this.relativePos = 0,
-      this.fontZoom = 1,
-      this.underline = 0, //0,1
-      this.linefeed = 0, //0,1
-      this.x = 0,
-      this.y = 0});
-
   static const String TYPE_TEXT = 'text';
   static const String TYPE_BARCODE = 'barcode';
   static const String TYPE_QRCODE = 'qrcode';
   static const String TYPE_IMAGE = 'image';
-  static const int ALIGN_LEFT = 0;
-  static const int ALIGN_CENTER = 1;
-  static const int ALIGN_RIGHT = 2;
 
-  /// print type ,inculde['text','barcode','qrcode','image']
+  LineText({
+    this.type,
+    this.content,
+    this.size = 0,
+    this.align = ALIGN_LEFT,
+    this.weight = 0,
+    this.width = 0,
+    this.height = 0,
+    this.absolutePos = 0,
+    this.relativePos = 0,
+    this.fontZoom = 1,
+    this.underline = 0,
+    this.linefeed = 0,
+    this.x = 0,
+    this.y = 0,
+  });
+
+  /// print type ,include['text','barcode','qrcode','image']
   final String? type;
 
   /// ['text','barcode','qrcode','image'] need print content
@@ -54,9 +61,13 @@ class LineText {
   /// ['text'] text align
   final int? align;
 
-  /// ['text'] double
+  /// ['text'] text weight
   final int? weight;
+
+  /// ['text'] text width
   final int? width;
+
+  /// ['text'] text height
   final int? height;
 
   /// ['text'] absolute position from line begin
@@ -74,7 +85,10 @@ class LineText {
   /// ['text'] print linebreak
   final int? linefeed;
 
+  /// X coordinate for positioning
   final int? x;
+
+  /// Y coordinate for positioning
   final int? y;
 
   factory LineText.fromJson(Map<String, dynamic> json) =>
